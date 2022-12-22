@@ -1,0 +1,87 @@
+#include <stdlib.h>
+
+ 
+static	int		count_words(char *str)
+{
+	int	count;
+
+	count = 0;
+	while (*str != '\0')
+	{
+		while ((*str == ' ' || *str == '\n' || *str == '\t') && *str != '\0')
+			str++;
+		if (*str != '\0')
+			count++;
+		while (*str > 32 && *str < 127)
+			str++;
+	}
+	return (count);
+}
+
+static	int		count_len(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] > 32 && str[i] < 127 && str[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	str_cp(char *s1, char *s2)
+{
+    int i;
+    
+    i = 0;
+	while (s2[i] > 32 && s2[i] < 127)
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = '\0';
+}
+
+char			**ft_split(char *str)
+{
+	char	**ret;
+	int		c_words;
+	int		a;
+
+	ret = NULL;
+	c_words = count_words(str);
+	a = 0;
+	ret = (char**)malloc(sizeof(char*) * c_words + 1);
+	ret[c_words] = NULL;
+	while (a < c_words)
+	{
+		while (*str == ' ' || *str == '\n' || *str == '\t')
+			str++;
+		if (*str != '\0')
+		{
+			ret[a] = (char*)malloc(sizeof(char*) * (count_len(str) + 1));
+			str_cp(ret[a], str);
+		}
+		while (*str > 32 && *str < 127)
+			str++;
+		a++;
+	}
+	return (ret);
+}
+
+
+#include <stdio.h>
+ 
+int      main(void)
+{
+//char test[] = "\njrS58VHQ    \n      p70fL       Kx2sRP0So3E4rC9  \n nebpv3J5ousO84Pa1HjUQOImUhjwZpGn    \n \n   X28iT7Ap9   DIYAF9ZSpKcs0Rcv\n uzO\n        \nZ7zjEeonALOKQF5xq \n   \nQxp0b1ufFKGJ \n2n8R9zUvZEtOwmqf\n    ";
+char test[] = "DIYAF9ZSpKcs0Rcv \n uzO\n        \nZ7zjEeonALOKQF5xq \n   \nQxp0b1ufFKGJ \n2n8R9zUvZEtOwmqf\n    ";
+ 
+  char **arr = ft_split(test);
+ 
+  int i = 0;
+  while (arr[i] != 0)
+  {
+      printf("[%s]\n", arr[i]);
+      ++i;
+  }
+ }
